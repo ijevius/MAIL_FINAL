@@ -1,0 +1,4 @@
+GOOD_LOGIN = "ruslan"
+GOOD_PASSWORD = "123456"
+
+SHORT_LOGIN = "x"

@@ -32,14 +32,13 @@ class TestApi(ApiBase):
 
     def test_shortlogin_user_add(self):
         self.api_client.post_login("ruslan", "123456")
-        username = str(randrange(9999))
+        username = str(random.randint(1001, 9999))
         email = fake.email()
         password = "90u3093ugn-n3ug23"
         reg_res = self.api_client.post_register(username, password, email, need_status=400)
         assert reg_res.status_code == 400
         self.api_client.session.cookies.clear()
 
-    #@pytest.mark.skip
     def test_user_add_incorrect_email(self):
         self.api_client.post_login("ruslan", "123456")
         first = fake.first_name()
@@ -81,8 +80,9 @@ class TestApi(ApiBase):
         password = "xxx()J@#(#@JT"
         self.api_client.post_register(username, password, email, need_status=210)
         self.api_client.get_block_user(username)
-        last_user = self.mysql.session.query(User).order_by(-User.id).first()
-        assert last_user.access == 0
+
+        this_user = self.mysql.session.query(User).filter(User.username==username, User.email==email).first()
+        assert this_user.access == 0
 
     def test_unban_user(self):
         self.api_client.session.cookies.clear()
@@ -94,14 +94,14 @@ class TestApi(ApiBase):
         password = "xxx()J@#(#@JT"
         self.api_client.post_register(username, password, email, need_status=210)
         self.api_client.get_block_user(username)
-        last_user = self.mysql.session.query(User).order_by(-User.id).first()
-        assert last_user.access == 0
+        this_user = self.mysql.session.query(User).filter(User.username == username, User.email == email).first()
+        assert this_user.access == 0
         self.api_client.get_unblock_user(username)
         self.mysql.session.commit()
         #self.mysql.session.expire(last_user)
-        self.mysql.session.refresh(last_user)
-        last_user = self.mysql.session.query(User).order_by(-User.id).first()
-        assert last_user.access == 1
+        self.mysql.session.refresh(this_user)
+        this_user = self.mysql.session.query(User).filter(User.username == username, User.email == email).first()
+        assert this_user.access == 1
 
     def test_del_user(self):
         self.api_client.session.cookies.clear()
@@ -112,8 +112,9 @@ class TestApi(ApiBase):
         self.api_client.get_del_user(name)
         self.mysql.session.commit()
         self.mysql.session.expire_all()
-        last_user = self.mysql.session.query(User).order_by(-User.id).first()
-        assert (name != last_user.username and email != last_user.email)
+        last_user = self.mysql.session.query(User).filter(User.username==name, User.email==email).all()
+        #assert (name != last_user.username and email != last_user.email)
+        assert len(last_user)==0
 
     def test_repeat_user_add(self):
         self.api_client.post_login("ruslan", "123456")

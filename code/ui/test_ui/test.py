@@ -51,6 +51,8 @@ class TestUI(BaseCase):
         assert WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(WelcomePageLocators.WIKI_API_LOCATOR)
         )
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
 
     def test_pm_click(self):
         self.login_page.make_login()
@@ -61,6 +63,8 @@ class TestUI(BaseCase):
         assert WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(WelcomePageLocators.PM_TITLE_LOCATOR)
         )
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
 
     def test_smtp_click(self):
         self.login_page.make_login()
@@ -71,6 +75,8 @@ class TestUI(BaseCase):
         assert WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located(WelcomePageLocators.WIKI_SMTP_LOCATOR)
         )
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
         #self.driver.close()
 
     def test_pyhistory_click(self):
@@ -93,7 +99,8 @@ class TestUI(BaseCase):
             EC.presence_of_element_located(WelcomePageLocators.FLASK_LOGO_LOCATOR)
         )
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'W')
-        #self.driver.close()
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
 
     def test_linux_click(self):
         self.login_page.make_login()
@@ -102,7 +109,7 @@ class TestUI(BaseCase):
         block.click()
         window_after = self.driver.window_handles[1]
         self.driver.switch_to.window(window_after)
-        assert WebDriverWait(self.driver, 20).until(EC.presence_of_element_located(WelcomePageLocators.CENTOS_ANYWHERE_LOCATOR))
+        assert WebDriverWait(self.driver, 2).until(EC.presence_of_element_located(WelcomePageLocators.CENTOS_ANYWHERE_LOCATOR))
 
     def test_wireshark_news(self):
         self.login_page.make_login()
@@ -115,7 +122,8 @@ class TestUI(BaseCase):
             EC.presence_of_element_located(WelcomePageLocators.WIRE_2OK_LOCATOR)
         )
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'W')
-        #self.driver.close()
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
 
     def test_wireshark_download(self):
         self.login_page.make_login()
@@ -128,6 +136,8 @@ class TestUI(BaseCase):
             EC.presence_of_element_located(WelcomePageLocators.WIREDOWN_OK_LOCATOR)
         )
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'W')
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
 
     def test_examples(self):
         self.login_page.make_login()
@@ -140,8 +150,8 @@ class TestUI(BaseCase):
             EC.presence_of_element_located(WelcomePageLocators.TCP_OK_LOCATOR)
         )
         self.driver.find_element_by_tag_name('body').send_keys(Keys.COMMAND + 'W')
-        self.driver.window_handles[0]
-        #self.driver.close()
+        self.driver.close()
+        self.driver.switch_to.window(self.driver.window_handles[0])
 
     def test_logout(self):
         self.login_page.make_login()

@@ -97,7 +97,7 @@ def driver(config):
     manager = ChromeDriverManager(version='latest')
     browser = webdriver.Chrome(executable_path=manager.install())
     browser.get(url)
-    browser.minimize_window()
+    browser.maximize_window()
     yield browser
     browser.close()
 

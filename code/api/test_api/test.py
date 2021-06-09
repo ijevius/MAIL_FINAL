@@ -50,7 +50,6 @@ class TestApi(ApiBase):
         assert reg_res.result.lower() != "user was added!"
         self.api_client.session.cookies.clear()
 
-    # @pytest.mark.skip
     def test_user_add_short_email(self):
         self.api_client.post_login("ruslan", "123456")
         first = fake.first_name()

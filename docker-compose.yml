@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+  percona:
+    image: "percona:latest"
+    environment:
+      MYSQL_ROOT_PASSWORD: pass
+    healthcheck:
+      test: ['CMD', 'mysqladmin', '-uroot', '-ppass', 'ping', '-h', '127.0.0.1']
+      timeout: 1s
+      retries: 30
+
+  myapp:
+    image: build
+    tty: true
+    volumes:
+      - /home/rus/PycharmProjects/final_app_mairu/code:/tmp/source_code
+      #- /tmp/alluredir:/tmp/alluredir
+    entrypoint: /bin/bash /tmp/source_code/run_environment.sh
+    environment:
+      - TESTS_PATH=/tmp/source_code/ui/test_ui
+      - THREADS=2
+    depends_on:
+      percona:
+        condition: service_healthy

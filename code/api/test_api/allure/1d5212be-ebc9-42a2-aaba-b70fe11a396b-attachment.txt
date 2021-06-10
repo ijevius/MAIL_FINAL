@@ -1,4 +1,14 @@
-<!DOCTYPE html>
+2021-06-10 01:44:15,147 - client.py       - INFO   - Performing POST request:
+URL: http://0.0.0.0:81/login
+HEADERS: None
+DATA: {'username': 'ruslan', 'password': '123456', 'submit': 'Login'}
+
+expected status: 200
+
+
+2021-06-10 01:44:15,256 - client.py       - INFO   - Got response:
+RESPONSE STATUS: {response.status_code}
+RESPONSE CONTENT: <!DOCTYPE html>
 <html>
     <head>
     <meta charset="UTF-8">
@@ -151,8 +161,23 @@
             <footer>
                   <div class="uk-text-center uk-text-large" style="padding: 5px 0px;">
     <p style="font-size:10px">powered by ТЕХНОАТОМ</p>
-    <p>Simple is better than complex</p>
+    <p>Special cases aren&#39;t special enough to break the rules</p>
 </div>
             </footer>
     </body>
 </html>
+
+
+2021-06-10 01:44:15,260 - client.py       - INFO   - Performing GET request:
+URL: http://0.0.0.0:81/api/del_user/Brittany Brown
+HEADERS: None
+DATA: None
+
+expected status: 204
+
+
+2021-06-10 01:44:15,348 - client.py       - INFO   - Got response:
+RESPONSE STATUS: {response.status_code}
+RESPONSE CONTENT: 
+
+

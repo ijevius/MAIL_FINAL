@@ -64,9 +64,6 @@ class TestApi(ApiBase):
     def test_login(self):
         self.api_client.session.cookies.clear()
         res = self.api_client.post_login('ruslan', '123456')
-        with open('login_result.txt', "w") as f:
-            f.write(str(res.text))
-            f.close()
         assert "Test Server | Welcome!" in res.text
 
     def test_ban_user(self):
@@ -79,7 +76,8 @@ class TestApi(ApiBase):
         password = "xxx()J@#(#@JT"
         self.api_client.post_register(username, password, email, need_status=210)
         self.api_client.get_block_user(username)
-
+        self.mysql.session.commit()
+        self.mysql.session.expire_all()
         this_user = self.mysql.session.query(User).filter(User.username==username, User.email==email).first()
         assert this_user.access == 0
 
@@ -93,6 +91,8 @@ class TestApi(ApiBase):
         password = "xxx()J@#(#@JT"
         self.api_client.post_register(username, password, email, need_status=210)
         self.api_client.get_block_user(username)
+        self.mysql.session.commit()
+        self.mysql.session.expire_all()
         this_user = self.mysql.session.query(User).filter(User.username == username, User.email == email).first()
         assert this_user.access == 0
         self.api_client.get_unblock_user(username)
